@@ -15,10 +15,9 @@ As stated in the Voron documentation:
 ## Bom
 Screws M3x8mm DIN 7991/ISO 10642 (standard screews are 6mm)
 ## Improvement
-Spacer preventing bending in wrong direction.
-Can be used ziptie.
+Spacer preventing bending in the wrong direction. Can be used with ziptie.
 ## Description
-Fixing cable chain used in formbot kits. Easy to use and print, not need superglue.
+Fixing cable chain used in formbot kits. Easy to use and print, no need for superglue.
 ## Pictures
 
 ![Cable chain 10x11 spacer fix](img/Cable_chain_10x11_spacer_fix_1.jpg)
