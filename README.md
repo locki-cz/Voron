@@ -28,5 +28,5 @@ Top:
 ![Cable chain 10x11 spacer fix](img/Cable chain 10x11 spacer fix_2.jpg)
 &nbsp;<br/>
 
-![Voron](img/Cable chain 10x11 spacer fix_3.jpg)
+![Voron](img/Cable_chain_10x11_spacer_fix_3.jpg)
 &nbsp;<br/>
