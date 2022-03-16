@@ -22,10 +22,10 @@ Fixing cable chain used in formbot kits. Easy to use and print, not need supergl
 ## Pictures
 Top:
 
-![Cable chain 10x11 spacer fix](img/Cable chain 10x11 spacer fix_1.jpg)
+![Cable chain 10x11 spacer fix](img/Cable_chain_10x11_spacer_fix_1.jpg)
 &nbsp;<br/>
 
-![Cable chain 10x11 spacer fix](img/Cable chain 10x11 spacer fix_2.jpg)
+![Cable chain 10x11 spacer fix](img/Cable_chain_10x11_spacer_fix_2.jpg)
 &nbsp;<br/>
 
 ![Voron](img/Cable_chain_10x11_spacer_fix_3.jpg)
