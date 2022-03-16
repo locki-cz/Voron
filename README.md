@@ -13,7 +13,7 @@ As stated in the Voron documentation:
 * no supports
 
 ## Bom
-Screww +2mm longer then you use.
+Screws M3x8mm DIN 7991/ISO 10642
 ## Improvement
 Spacer preventing bending in wrong direction.
 Can be used ziptie.
@@ -22,17 +22,11 @@ Fixing cable chain used in formbot kits. Easy to use and print, not need supergl
 ## Pictures
 Top:
 
-![z belt cover](img/cable_routing_z_belt_cover_mod_img_0.png)
-&nbsp;<br/>
-Bottom with path for routing cables:
-
-![z belt cover](img/cable_routing_z_belt_cover_mod_img_1.png)
-&nbsp;<br/>
-Cable routing:
-
-![z belt cover](img/cable_routing_z_belt_cover_mod_img_3.jpg)
+![Cable chain 10x11 spacer fix](img/Cable chain 10x11 spacer fix_1.jpg)
 &nbsp;<br/>
 
-Closed:
+![Cable chain 10x11 spacer fix](img/Cable chain 10x11 spacer fix_2.jpg)
+&nbsp;<br/>
 
-![z belt cover](img/cable_routing_z_belt_cover_mod_img_2.jpg)
+![Voron](img/Cable_chain_10x11_spacer_fix_3.jpg)
+&nbsp;<br/>
