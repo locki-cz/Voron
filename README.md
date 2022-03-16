@@ -20,7 +20,6 @@ Can be used ziptie.
 ## Description
 Fixing cable chain used in formbot kits. Easy to use and print, not need superglue.
 ## Pictures
-Top:
 
 ![Cable chain 10x11 spacer fix](img/Cable_chain_10x11_spacer_fix_1.jpg)
 &nbsp;<br/>
