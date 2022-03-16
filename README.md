@@ -1,4 +1,4 @@
-# Hidden cable routing z belt cover mod
+# Cable chain 10x11 spacer fix
 ## Credit
 Mod based on the design of the Voron crew.
 Thank you for your awesome work!
@@ -18,7 +18,7 @@ Screww +2mm longer then you use.
 Spacer preventing bending in wrong direction.
 Can be used ziptie.
 ## Description
-Easy to use and print, not need superglue.
+Fixing cable chain used in formbot kits. Easy to use and print, not need superglue.
 ## Pictures
 Top:
 
