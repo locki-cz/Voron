@@ -13,7 +13,7 @@ As stated in the Voron documentation:
 * no supports
 
 ## Bom
-Screws M3x8mm DIN 7991/ISO 10642
+Screws M3x8mm DIN 7991/ISO 10642 (standard screews are 6mm)
 ## Improvement
 Spacer preventing bending in wrong direction.
 Can be used ziptie.
