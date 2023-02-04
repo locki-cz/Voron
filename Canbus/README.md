@@ -372,3 +372,9 @@ Pro tyto desky je zde podpora:
 > - monster8
 > - robin_v3
 > - smoothieboard-v1
+
+
+# One more thing:
+CanBus s Rpi SB2040 potřebuje chladit, hlavně pokud tisknete v uzavřeném boxu. Pro Stealthburner jsem upravil dvířka pro umístění ventilátoru 25x25x7 mm, nebo 30x30x7 mm. Chladiš krokového motoru je třeba upilovat zhruba na polovinu, přilepte i nějaký chladič na RP2040.
+
+Modely naleznete zde: https://www.printables.com/cs/social/122655-locki/models
