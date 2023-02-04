@@ -289,9 +289,21 @@ Stopneme klipper
 Mělo by to vypadat takto:
 ![klipper](img/canboot-flash-done.png)
 
-Opět spistíme klipper:
+Opět spustíme klipper:
 
     sudo service klipper start 
 
 
+# Něco navíc ... jak nahrát nový firmware bez otáčení tiskárny:
 
+### Naformátujte nějakou malou microSD kartu a strčte ji do Octopus desky
+
+### Zkompilujte firmware pro svou desku jak jste zvykli
+
+Stopneme klipper
+    sudo service klipper stop
+
+    ./scripts/flash-sdcard.sh /dev/ttyACM0 btt-octopus-f446-v1.1
+
+Opět spustíme klipper:
+    sudo service klipper start
