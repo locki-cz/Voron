@@ -12,15 +12,22 @@ Tento krok můžete přeskočit a není úplně nutný k plné funkčnosti, ale 
 Vlezeme do klipper složky a stáhneme poslední aktualizaci z gitu:
 
     cd ~/klipper && git pull
+
+odstraníme předešlé kompilace:
+
+    make clean
+
+provedeme nastavení pro co to kompilujeme:
+
     make menuconfig
 
-   nastavíme takto:
+nastavíme takto:
 
    ![klipper](img/klipper.png) 
 
-   zmáčkneme q pro  uložení a y pro potvrzení
+zmáčkneme q pro  uložení a y pro potvrzení
 
-   Zkompilujeme:
+Zkompilujeme:
 
     make -j4
 
