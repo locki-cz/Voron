@@ -105,7 +105,11 @@ Rozsvítí se status led:
 ## 3. Zapojení a nastavení
 
 ### Zapojení
-Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpor CANBUS 120 ohmů. Na FLY-UTOC-1 nedáváte žádné propojky.
+Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpor CANBUS 120 ohmů:
+
+![jumper](img/jumper.png)
+
+ Na FLY-UTOC-1 nedáváte žádné propojky.
 
 Zapojíte podle popisu pokud máte verzi jen s paticemi, pokud máte tu s microfit konektory tak takto:
 
