@@ -99,15 +99,71 @@ a měli bychom vidět:
     Bus 001 Device 013: ID 1d50:614e OpenMoko, Inc.
 
 Rozsvítí se status led:
+
 ![status](img/statusled.png)
 
 ## 3. Zapojení a nastavení
 
-Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpor CANBUS 120 ohmů.
+### Zapojení
+Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpor CANBUS 120 ohmů. Na FLY-UTOC-1 nedáváte žádné propojky.
 
+Zapojíte podle popisu pokud máte verzi jen s paticemi, pokud máte tu s microfit konektory tak takto:
 
 ![utoc](img/fly-utoc-1.png)
 
-
 ![zapojeni](img/zapojeni.png) 
+
+### Vytvoření Canbus interface:
+
+Doinstalujeme bylíčky které budeme potřebovat:
+
+    sudo apt update && sudo apt install nano wget -y
+
+
+vyrobíme konfiguraci interfacu, copykopírujte a vložte do konzole najednou a zmáčkněte Enter:
+
+    sudo /bin/sh -c "cat > /etc/network/interfaces.d/can0" << EOF
+    allow-hotplug can0
+    iface can0 can static
+        bitrate 500000
+        up ifconfig \$IFACE txqueuelen 1024
+    EOF
+
+Automatické zapnutí CanBus interfacu při bootu RPI provedete příkazy:
+
+    sudo wget https://cdn.mellow.klipper.cn/shell/can-enable -O /usr/bin/can-enable > /dev/null 2>&1 && sudo chmod +x /usr/bin/can-enable || echo "The operation failed"
+    sudo cat /etc/rc.local | grep "exit 0" > /dev/null || sudo sed -i '$a\exit 0' /etc/rc.local
+    sudo sed -i '/^exit\ 0$/i \can-enable -d can0 -b 500000 -t 1024' /etc/rc.local
+
+Restartujeme RPI:
+
+    sudo reboot
+
+
+### Zjištění canbuss uuid
+
+Zjistíme příkaze?
+
+    python3 lib/canboot/flash_can.py -q
+
+ Dostaneme odpověď:
+
+    pi@Voron:~/klipper $ python3 lib/canboot/flash_can.py -q
+    Resetting all bootloader node IDs...
+    Checking for canboot nodes...
+    Detected UUID: 211e59ecf887, Application: Klipper
+    Query Complete
+
+Zjištěné mé CanBus UUID je: **211e59ecf887** vaše bude jiné !!!!
+
+
+### Nastavení
+Nastavení configu printer.cfg
+
+Zde si přidáme canbus mcu:
+
+    [mcu sb2040]
+    uuid: vase-id-napisete-sem     # vase uu id
+
+
 
