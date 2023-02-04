@@ -246,7 +246,6 @@ Do printer.cfg si přidáme canbus mcu:
 
 
 # Aktualizace SB2040 firmware skrz CanBus interface:
->>>>>>> af760f842943693ede181d6300f770e8fa41ff27
 
 Postup je stejný jako v bodě 2:
 
