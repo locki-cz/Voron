@@ -68,7 +68,7 @@ Provedeme nastavení HW pro který to kompilujeme:
 
 Nastavíme takto:
 
-![klipper](img/canboot.png) 
+![klipper](img/canboot-flash.png) 
 
 Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
 
@@ -107,7 +107,7 @@ Rozsvítí se status led:
 
 # 3. Zapojení a nastavení canbus interfacu
 
-### Zapojení
+## Zapojení
 Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpor CANBUS 120 ohmů:
 
 ![jumper](img/jumper.png)
@@ -115,13 +115,17 @@ Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpo
  Na FLY-UTOC-1 nedáváte žádné propojky.
 
 
-Zapojíte podle popisu pokud máte verzi jen s paticemi, pokud máte tu s microfit konektory tak takto:
+> Zapojíte podle popisu pokud máte verzi jen s paticemi, pokud máte tu s microfit konektory tak takto podle barvy kabelů:
+> - Červená +24V
+> - Černá     0V
+> - Žlutá   CanBus-H
+> - Bílá    CanBus-L
 
 ![utoc](img/fly-utoc-1.png)
 
 ![zapojeni](img/zapojeni.png) 
 
-### Vytvoření Canbus interface:
+## Vytvoření Canbus interface:
 
 Doinstalujeme balíčky, které budeme potřebovat:
 
@@ -150,7 +154,7 @@ Restartujeme RPI:
     sudo reboot
 
 
-### Zjištění canbuss uuid
+## Zjištění canbuss uuid
 
 Zjistíme příkazem:
 
@@ -240,6 +244,9 @@ Do printer.cfg si přidáme canbus mcu:
 
 
 
+<<<<<<< HEAD
+# Aktualizace SB2040 firmware skrz CanBus interfacE:
+=======
 
 
 
@@ -249,10 +256,11 @@ Do printer.cfg si přidáme canbus mcu:
 
 
 # Aktualizace SB2040 firmware skrz CanBus interface:
+>>>>>>> af760f842943693ede181d6300f770e8fa41ff27
 
 Postup je stejný jako v bodě 2:
 
-### Zkompilujeme firmware
+## Zkompilujeme firmware
 
 Vlezeme do klipper složky a stáhneme poslední aktualizaci z gitu:
 
@@ -274,7 +282,7 @@ Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
 
 Zmáčkneme **q** pro uložení a **y** pro potvrzení
 
-### Zkompilujeme:
+## Zkompilujeme:
 
     make -j4
 
@@ -294,16 +302,82 @@ Opět spustíme klipper:
     sudo service klipper start 
 
 
-# Něco navíc ... jak nahrát nový firmware bez otáčení tiskárny:
+# Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny:
 
-### Naformátujte nějakou malou microSD kartu a strčte ji do Octopus desky
+## Naformátujte nějakou malou microSD kartu a strčte ji do Octopus desky
 
-### Zkompilujte firmware pro svou desku jak jste zvykli
+## Zkompilujte firmware pro svou desku jak jste zvykli
 
 Stopneme klipper
     sudo service klipper stop
+
+
+Ve složce kde máte klipper pak spustíme skript:
 
     ./scripts/flash-sdcard.sh /dev/ttyACM0 btt-octopus-f446-v1.1
 
 Opět spustíme klipper:
     sudo service klipper start
+
+
+Pokud máte jiný typ desky tak tímto příkazem vylistujeme a zjistíme zda to umí i vaše deska:
+
+    ./scripts/flash-sdcard.sh -l
+
+Pro tyto desky je zde podpora:
+
+> - btt-gtr
+> - btt-gtr-v1
+> - btt-octopus-f407-v1
+> - btt-octopus-f407-v1.0
+> - btt-octopus-f407-v1.1
+> - btt-octopus-f429-v1
+> - btt-octopus-f429-v1.0
+> - btt-octopus-f429-v1.1
+> - btt-octopus-f446-v1
+> - btt-octopus-f446-v1.0
+> - btt-octopus-f446-v1.1
+> - btt-octopus-pro-f429-v1.0
+> - btt-octopus-pro-f446-v1.0
+> - btt-skr-2-f407
+> - btt-skr-2-f429
+> - btt-skr-3
+> - btt-skr-e3-dip
+> - btt-skr-e3-turbo
+> - btt-skr-mini
+> - btt-skr-mini-e3-v1
+> - btt-skr-mini-e3-v1.2
+> - btt-skr-mini-e3-v2
+> - btt-skr-mini-e3-v3
+> - btt-skr-mini-mz
+> - btt-skr-mini-v1.1
+> - btt-skr-mini-v3
+> - btt-skr-pro
+> - btt-skr-pro-v1.1
+> - btt-skr-pro-v1.2
+> - btt-skr-se-bx
+> - btt-skr-turbo-v1.4
+> - btt-skr-v1.1
+> - btt-skr-v1.3
+> - btt-skr-v1.4
+> - btt002-v1
+> - creality-v4.2.2
+> - creality-v4.2.7
+> - fly-gemini-v2
+> - flyboard-mini
+> - fysetc-cheetah
+> - fysetc-cheetah-v2
+> - fysetc-s6-v1.2
+> - fysetc-s6-v2
+> - fysetc-spider
+> - fysetc-spider-v1
+> - generic-lpc1768
+> - generic-lpc1769
+> - mks-robin-e3
+> - mks-robin-e3d
+> - mks-sbase
+> - mks-sgenl-v1
+> - mks-sgenl-v2
+> - monster8
+> - robin_v3
+> - smoothieboard-v1
