@@ -16,7 +16,7 @@ Vlezeme do klipper složky a stáhneme poslední aktualizaci z gitu:
 
    nastavíme takto:
 
-   ![klipper](Canbus/img/klipper.png) 
+   ![klipper](img/klipper.png) 
 
    zmáčkneme q pro  uložení a y pro potvrzení
 
