@@ -250,25 +250,48 @@ Do printer.cfg si přidáme canbus mcu:
 
 # Aktualizace SB2040 firmware skrz CanBus interfacE:
 
-sudo service klipper stop
-cd ~/klipper
-git pull
-make clean
-make menuconfig
+Postup je stejný jako v bodě 2:
 
-#Arch: RP2040
-#Bootloader offset: 16kb
-#Comm. interface: CAN
-#CAN RX pin: 4
-#CAN TX pin: 5
-#CAN speed: 500,000
-#GPIO pins on startup: gpio24
+### Zkompilujeme firmware
 
-make
+Vlezeme do klipper složky a stáhneme poslední aktualizaci z gitu:
 
-python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 1cffaa2dd522
+    cd ~/klipper && git pull
 
-sudo service klipper start
+Odstraníme předešlé kompilace:
+
+    make clean
+
+Provedeme nastavení HW pro který to kompilujeme:
+
+    make menuconfig
+
+Nastavíme takto:
+
+![klipper](img/canboot.png) 
+
+Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
+
+Zmáčkneme **q** pro uložení a **y** pro potvrzení
+
+### Zkompilujeme:
+
+    make -j4
+
+Stopneme klipper
+
+    sudo service klipper stop
+
+### Teď nahrajeme námi zkompilovaný firmware do SB2040 desky:
+
+    python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 1cffaa2dd522
+
+Mělo by to vypadat takto:
+![klipper](img/canboot-flash-done.png)
+
+Opět spistíme klipper:
+
+    sudo service klipper start 
 
 
 
