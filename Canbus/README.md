@@ -1,19 +1,22 @@
-# CanBus, Canboot a jak na to
+# CanBus, Canboot a jak to celé zprovoznit + něco navíc
 
 Jak nahrát Canboot a klipper do CanBus desky Mellow SB2040 v1
 
 ![klipper](img/sb2040.png) 
 
-## 1. Canboot
-Tento krok můžete přeskočit a není úplně nutný k plné funkčnosti, ale do budoucna je fajn pak mít možnost nahrát nový klipper firmware skrz CanBus interface. **Nemusíte připojovat USB kabel do extruderu.**
+# 1. Canboot
+Tento krok můžete přeskočit a není úplně nutný k plné funkčnosti, ale do budoucna je fajn pak mít možnost nahrát nový klipper firmware skrz CanBus interface. **Nemusíte připojovat USB kabel do extruderu a nahrajete nový firmware jedním příkazem. Je to hodně pohodné.**
 
-Vlezeme do své home složky:
+Tak jdem na to, připojíme se na ke své tiskárně pomocí SSH a vlezeme do své home složky:
 
     cd ~
 
 Stáheneme poslední verzi CanBoot z gitu:
 
     git clone https://github.com/Arksine/CanBoot
+
+Vlezeme do složky:
+
     cd CanBoot
 
   Odstraníme případné předešlé kompilace:
@@ -34,12 +37,12 @@ Nastavíme takto:
 
 ### Teď nahrajeme námi zkompilovaný CanBoot firmware do SB2040 desky:
 
-Připojíme usb kabel do RPI, zmáčkneme tlačítko u USB-C na SB2040 a až pak připojíme USB kabel, pustíme tlačítko.
+Připojíme usb kabel do RPI, zmáčkneme tlačítko u USB-C na SB2040 a až pak připojíme USB kabel, pustíme tlačítko. Tímto bude SB2040 v DFU režimu a můžeme nahrát firmware skrz USB.
 ### Vypíšeme si usb zařízení:
 
     lsusb
 
-Mělo by se zobrazit toto:
+Mělo by se zobrazit nově toto v seznamu:
 
     Bus 001 Device 014: ID 2e8a:0003
 
@@ -48,7 +51,7 @@ Mělo by se zobrazit toto:
     make flash FLASH_DEVICE=2e8a:0003
 
 
-## 2. Klipper firmware
+# 2. Klipper firmware
 ### Zkompilujeme firmware
 
 Vlezeme do klipper složky a stáhneme poslední aktualizaci z gitu:
@@ -65,7 +68,7 @@ Provedeme nastavení HW pro který to kompilujeme:
 
 Nastavíme takto:
 
-![klipper](img/klipper.png) 
+![klipper](img/canboot.png) 
 
 Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
 
@@ -102,7 +105,7 @@ Rozsvítí se status led:
 
 ![status](img/statusled.png)
 
-## 3. Zapojení a nastavení
+# 3. Zapojení a nastavení canbus interfacu
 
 ### Zapojení
 Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpor CANBUS 120 ohmů:
@@ -110,6 +113,7 @@ Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpo
 ![jumper](img/jumper.png)
 
  Na FLY-UTOC-1 nedáváte žádné propojky.
+
 
 Zapojíte podle popisu pokud máte verzi jen s paticemi, pokud máte tu s microfit konektory tak takto:
 
@@ -119,12 +123,12 @@ Zapojíte podle popisu pokud máte verzi jen s paticemi, pokud máte tu s microf
 
 ### Vytvoření Canbus interface:
 
-Doinstalujeme bylíčky které budeme potřebovat:
+Doinstalujeme balíčky, které budeme potřebovat:
 
     sudo apt update && sudo apt install nano wget -y
 
 
-vyrobíme konfiguraci interfacu, copykopírujte a vložte do konzole najednou a zmáčkněte Enter:
+Vyrobíme konfiguraci interfacu, kopírujte a vložte do konzole najednou a zmáčkněte Enter:
 
     sudo /bin/sh -c "cat > /etc/network/interfaces.d/can0" << EOF
     allow-hotplug can0
@@ -136,7 +140,9 @@ vyrobíme konfiguraci interfacu, copykopírujte a vložte do konzole najednou a 
 Automatické zapnutí CanBus interfacu při bootu RPI provedete příkazy:
 
     sudo wget https://cdn.mellow.klipper.cn/shell/can-enable -O /usr/bin/can-enable > /dev/null 2>&1 && sudo chmod +x /usr/bin/can-enable || echo "The operation failed"
+
     sudo cat /etc/rc.local | grep "exit 0" > /dev/null || sudo sed -i '$a\exit 0' /etc/rc.local
+
     sudo sed -i '/^exit\ 0$/i \can-enable -d can0 -b 500000 -t 1024' /etc/rc.local
 
 Restartujeme RPI:
@@ -146,7 +152,7 @@ Restartujeme RPI:
 
 ### Zjištění canbuss uuid
 
-Zjistíme příkaze?
+Zjistíme příkazem:
 
     python3 lib/canboot/flash_can.py -q
 
@@ -158,16 +164,111 @@ Zjistíme příkaze?
     Detected UUID: 211e59ecf887, Application: Klipper
     Query Complete
 
-Zjištěné mé CanBus UUID je: **211e59ecf887** vaše bude jiné !!!!
+Zjištěné mé CanBus UUID je: **211e59ecf887** vaše bude jiné, to své si zkopírujte !!!!
 
 
-### Nastavení
-Nastavení configu printer.cfg
 
-Zde si přidáme canbus mcu:
+
+
+
+# Konfigurace SB2040 v printer.cfg
+
+
+![pinout](img/pinout.jpg) 
+
+
+Do printer.cfg si přidáme canbus mcu:
 
     [mcu sb2040]
     uuid: vase-id-napisete-sem     # vase uu id
+
+    ## SB2040 RPI sensor
+    [temperature_sensor FLY-SB2040]
+    sensor_type: temperature_mcu
+    sensor_mcu: sb2040
+
+    ## SB2040 temperature sensor board
+    [temperature_sensor SB-inside]
+    sensor_type = ATC Semitec 104GT-2
+    sensor_pin = sb2040:gpio26
+
+
+    [controller_fan sb2040-fan]
+    ##  SB2040 5V fan
+    pin: sb2040:gpio15
+    kick_start_time: 0.5  # full speed to spinn of fan
+    fan_speed: 0.9 #reduce speed to 90%
+    heater: heater_bed  # enabled when heater bed heating
+    idle_timeout:30
+
+    [adxl345]
+    cs_pin: sb2040:gpio1
+    spi_software_sclk_pin: sb2040:gpio0
+    spi_software_mosi_pin: sb2040:gpio3
+    spi_software_miso_pin: sb2040:gpio2
+
+
+    [extruder]
+    step_pin: sb2040:gpio9
+    dir_pin: sb2040:gpio10
+    enable_pin: !sb2040:gpio7
+    rotation_distance: 22.6789511   #Bondtech 5mm Drive Gears
+
+    gear_ratio: 50:10               #Gear Ratio Stealthburner
+    microsteps: 32
+    full_steps_per_rotation: 200    #200 for 1.8 degree, 400 for 0.9 degree
+    nozzle_diameter: 0.400
+    filament_diameter: 1.75
+    heater_pin: sb2040:gpio6
+    sensor_type: Generic 3950
+    sensor_pin: sb2040:gpio27
+    min_temp: 10
+    max_temp: 280
+    max_power: 1.0
+    min_extrude_temp: 190
+    max_extrude_cross_section: 50.0
+    max_extrude_only_distance: 200
+    pressure_advance: 0.04
+    pressure_advance_smooth_time: 0.040
+
+    [tmc2209 extruder]
+    uart_pin: sb2040:gpio8
+    interpolate: false
+    run_current: 0.6
+    sense_resistor: 0.110
+    stealthchop_threshold: 0
+
+
+
+
+
+
+
+
+
+
+
+# Aktualizace SB2040 firmware skrz CanBus interfacE:
+
+sudo service klipper stop
+cd ~/klipper
+git pull
+make clean
+make menuconfig
+
+#Arch: RP2040
+#Bootloader offset: 16kb
+#Comm. interface: CAN
+#CAN RX pin: 4
+#CAN TX pin: 5
+#CAN speed: 500,000
+#GPIO pins on startup: gpio24
+
+make
+
+python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 1cffaa2dd522
+
+sudo service klipper start
 
 
 
