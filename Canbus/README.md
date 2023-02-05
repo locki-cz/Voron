@@ -356,7 +356,7 @@ Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pr
 
 ![octopus-sensorless](img/octopus-sensorless.png)
 
-## Konfigurace:
+## Konfigurace endstopů:
 
 ### Původní stav:
 
@@ -401,6 +401,10 @@ Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pr
     diag_pin: ^PG9     # použijete stejný pin co jste měli nastavený jako endstop_pin!
     driver_SGTHRS: 255 # 255 je nejvetší citlivost pro detekci, 0 je nejmenší citlivost
 
+Uložíme config - save & restart
+
+### 
+
 
 
 
@@ -418,6 +422,7 @@ Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pr
 ## Zkompilujte firmware pro svou desku jak jste zvykli
 
 Stopneme klipper
+
     sudo service klipper stop
 
 
