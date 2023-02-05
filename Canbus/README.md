@@ -338,7 +338,7 @@ Stopneme klipper
 
 ### Teď nahrajeme námi zkompilovaný firmware do SB2040 desky:
 
-    python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 1cffaa2dd522
+    python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u yde-doplnte-vase-uuid
 
 Mělo by to vypadat takto:
 ![canboot-flash](img/canboot-flash-done.png)
