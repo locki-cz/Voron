@@ -525,12 +525,20 @@ Stopneme klipper
     sudo service klipper stop
 
 
-Ve složce kde máte klipper:
+### Přesuneme se do složky kde máte klipper:
 
     cd ~/klipper
 
+
+
+### Odstraníme případné předešlé kompilace:
+    
     make clean
+
+### Provedeme nastavení HW pro který to kompilujeme:
     make menuconfig
+
+    
 ###
 Nastavíme:
 
