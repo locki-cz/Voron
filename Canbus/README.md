@@ -322,7 +322,7 @@ Provedeme nastavení HW pro který to kompilujeme:
 
 Nastavíme takto:
 
-![klipper](img/canboot-flash.png) 
+![canboot-flash](img/canboot-flash.png) 
 
 Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
 
@@ -341,7 +341,7 @@ Stopneme klipper
     python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u zde-doplnte-vase-canbus-uuid
 
 Mělo by to vypadat takto:
-![canboot-flash](img/canboot-flash-done.png)
+![flash-done](img/canboot-flash-done.png)
 
 Opět spustíme klipper:
 
