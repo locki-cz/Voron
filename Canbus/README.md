@@ -422,6 +422,8 @@ Případně se pohneme zpět v GUI X -10 pro další test:
     G1 X-10 F6000
     G90
 
+Opět změníme cilivost a místo 255 dáme míň do té doby než jste spokojeni.
+
 
 
 **Stnejný postup opakujeme pro osu Y**
@@ -435,13 +437,12 @@ Provedeme home na ose Y:
         G28 Y0
 
 
-V mém případě s Moons motory mám obě hodnoty 
+V mém případě s Moons motory mám obě hodnoty citlivostni nastaveny na 70:
 
     driver_SGTHRS: 70
 
 ## Makra
 Kdokonalosti jen chybí sensorless makra a to homming override které používám s TAP.
-
 
 
 ### Homing_override makro:
