@@ -338,6 +338,7 @@ Stopneme klipper
 
 ### Teď nahrajeme námi zkompilovaný firmware do SB2040 desky:
 
+
     python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u zde-doplnte-vase-canbus-uuid
 
 Mělo by to vypadat takto:
@@ -403,12 +404,109 @@ Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pr
 
 Uložíme config - save & restart
 
-### 
+## Ladění cistlivosti nárazu
+
+Změnu citlivosti, kde hodnota 255 je největší a 0 je nejmenší, provedeme tak že si nastavíme z počátku 255 a postupně ubíráme tak, aby náraz se nám extruden nezastavoval někde uprostřed, ale až po nárazu do gantry a ten nebyl příliš silný.
+
+Nastavíme citlivost:
+
+    SET_TMC_FIELD FIELD=SGTHRS STEPPER=stepper_x VALUE=255
+    
+Provedeme home
+
+    G28 X0
+
+Případně se pohneme zpět v GUI X -10 pro další test:
+
+    G91
+    G1 X-10 F6000
+    G90
 
 
 
+**Stnejný postup opakujeme pro osu Y**
+
+Nastavíme citlivost:
+
+        SET_TMC_FIELD FIELD=SGTHRS STEPPER=stepper_Y VALUE=255
+
+Provedeme home na ose Y:
+
+        G28 Y0
+
+
+V mém případě s Moons motory mám obě hodnoty 
+
+    driver_SGTHRS: 70
 
 ## Makra
+Kdokonalosti jen chybí sensorless makra a to homming override které používám s TAP.
+
+
+
+### Homing_override makro:
+
+    [homing_override]
+    axes: z
+    set_position_z: 0
+    gcode:
+    G90
+    G0 Z5 F600
+    _HOME_X
+    _HOME_Y
+    G90
+    G0 X175 Y175 F6600 ## toto je pro 350 verzi, přepište si zde vaši velikost, jinak to nebude dělat home uprostřed
+    G28 Z
+    G0 Z10 F3600
+
+
+
+### Sensorless makro:
+To upravuje proud do motorů při home a pohne se to o kousek od konce ať místo pro pohyb a případný další home.
+
+Přidejte si makra tam, kde jste zvyklí je používat.
+
+    [gcode_macro _HOME_X]
+    gcode:
+        # Always use consistent run_current on A/B steppers during sensorless homing
+        {% set RUN_CURRENT_X = printer.configfile.settings['tmc2209 stepper_x'].run_current|float %}
+        {% set RUN_CURRENT_Y = printer.configfile.settings['tmc2209 stepper_y'].run_current|float %}
+        {% set HOME_CURRENT = 0.7 %}
+        SET_TMC_CURRENT STEPPER=stepper_x CURRENT={HOME_CURRENT}
+        SET_TMC_CURRENT STEPPER=stepper_y CURRENT={HOME_CURRENT}
+
+        # Home
+        G28 X
+        # Move away
+        G91
+        G1 X-10 F1200
+        
+        # Wait just a second… (give StallGuard registers time to clear)
+        G4 P1000
+        # Set current during print
+        SET_TMC_CURRENT STEPPER=stepper_x CURRENT={RUN_CURRENT_X}
+        SET_TMC_CURRENT STEPPER=stepper_y CURRENT={RUN_CURRENT_Y}
+
+    [gcode_macro _HOME_Y]
+    gcode:
+        # Set current for sensorless homing
+        {% set RUN_CURRENT_X = printer.configfile.settings['tmc2209 stepper_x'].run_current|float %}
+        {% set RUN_CURRENT_Y = printer.configfile.settings['tmc2209 stepper_y'].run_current|float %}
+        {% set HOME_CURRENT = 0.7 %}
+        SET_TMC_CURRENT STEPPER=stepper_x CURRENT={HOME_CURRENT}
+        SET_TMC_CURRENT STEPPER=stepper_y CURRENT={HOME_CURRENT}
+
+        # Home
+        G28 Y
+        # Move away
+        G91
+        G1 Y-10 F1200
+
+        # Wait just a second… (give StallGuard registers time to clear)
+        G4 P1000
+        # Set current during print
+        SET_TMC_CURRENT STEPPER=stepper_x CURRENT={RUN_CURRENT_X}
+        SET_TMC_CURRENT STEPPER=stepper_y CURRENT={RUN_CURRENT_Y}
 
 
 
