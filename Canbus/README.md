@@ -336,10 +336,11 @@ Stopneme klipper
 
     sudo service klipper stop
 
-### Teď nahrajeme námi zkompilovaný firmware do SB2040 desky:
+### Teď nahrajeme námi zkompilovaný firmware do SB2040 desky: 
 
 
-    python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u zde-doplnte-vase-canbus-uuid
+    python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u zde-doplnte-vase-canbus-uuid 
+
 
 Mělo by to vypadat takto:
 ![flash-done](img/canboot-flash-done.png)
