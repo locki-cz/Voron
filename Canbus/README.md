@@ -346,7 +346,7 @@ Opět spustíme klipper:
 
 # Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny:
 
-## Naformátujte nějakou malou microSD kartu a strčte ji do Octopus desky
+## Naformátujte nějakou malou microSD, naformátujte ji na FAT32 a strčte ji do Octopus desky
 
 ## Zkompilujte firmware pro svou desku jak jste zvykli
 
@@ -354,7 +354,7 @@ Stopneme klipper
     sudo service klipper stop
 
 
-Ve složce kde máte klipper pak spustíme skript:
+Ve složce kde máte klipper pak spustíme skript v mém případě pro F446 v1.1 verzi:
 
     ./scripts/flash-sdcard.sh /dev/ttyACM0 btt-octopus-f446-v1.1
 
@@ -362,9 +362,9 @@ Ve složce kde máte klipper pak spustíme skript:
 Opět spustíme klipper:
     sudo service klipper start
 
-**Teď jen vypněte skrz Mainsail, nebo Fluid tiskárnu, po nějaké chvíli vypnětěte tiskárnu úplně, chvíli počkejte a opet zapněte, Octopus si automaticky nahraje nový klipper firmware.**
+**Teď jen vypněte celou tiskárnu skrz Mainsail, nebo Fluid, po nějaké chvilcevypnětěte tiskárnu úplně vypínačem, chvíli počkejte a opet zapněte, Octopus si automaticky nahraje nový klipper firmware z sd karty.**
 
-Pokud máte jiný typ desky tak tímto příkazem vylistujeme a zjistíme zda to umí i vaše deska:
+Pokud máte jiný typ desky tak tímto příkazem vylistujeme a zjistíme zda to lze použít i s vaší deskou:
 
     ./scripts/flash-sdcard.sh -l
 
@@ -428,10 +428,12 @@ Pro tyto desky je zde podpora:
 
 
 # One more thing:
-CanBus s Rpi SB2040 potřebuje chladit, hlavně pokud tisknete v uzavřeném boxu. Pro Stealthburner jsem upravil dvířka pro umístění ventilátoru 25x25x7 mm, nebo 30x30x7 mm. Chladiš krokového motoru je třeba upilovat zhruba na polovinu, přilepte i nějaký chladič na RP2040.
+CanBus s Rpi SB2040 a řadičem motoru potřebuje chladit, hlavně pokud tisknete v uzavřeném boxu. Pro Stealthburner jsem upravil dvířka pro umístění ventilátoru 25x25x7 mm a 30x30x7 mm. Chladič krokového motoru je třeba upilovat zhruba na polovinu, pro jistotu přilepte i nějaký chladič na RP2040.
 
 Modely naleznete zde: https://www.printables.com/cs/social/122655-locki/models
 
 ![mods](img/mods.png)
 
+
+Pokud zde najdete nějakou blbost nepřesnost, typo atd tak napište na discordu, opravím.
 
