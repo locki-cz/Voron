@@ -5,7 +5,7 @@ Jak nahrát Canboot a klipper do CanBus desky Mellow SB2040 v1
 ![klipper](img/sb2040.png) 
 
 # 1. Canboot
-Tento krok můžete přeskočit a není úplně nutný k plné funkčnosti, ale do budoucna je fajn pak mít možnost nahrát nový klipper firmware skrz CanBus interface. **Nemusíte připojovat USB kabel do extruderu a nahrajete nový firmware jedním příkazem. Je to hodně pohodné.**
+Tento krok můžete přeskočit a není úplně nutný k plné funkčnosti, ale do budoucna je fajn pak mít možnost nahrát nový klipper firmware skrz CanBus interface. **Nemusíte připojovat USB kabel do extruderu a nahrajete nový firmware jedním příkazem. Je to hodně pohodlné.**
 
 ### Tak jdeme na to, připojíme se na ke své tiskárně pomocí SSH a přesuneme se do své home složky:
 
