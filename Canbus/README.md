@@ -31,6 +31,10 @@ Tento krok můžete přeskočit a není úplně nutný k plné funkčnosti, ale 
 
 ![canboot](img/canboot.png) 
 
+Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
+
+Zmáčkneme **q** pro uložení a **y** pro potvrzení
+
 ### Zkompilujeme:
 
     make -j4
@@ -130,7 +134,7 @@ Doinstalujeme balíčky, které budeme potřebovat:
     sudo apt update && sudo apt install nano wget -y
 
 
-Vyrobíme konfiguraci interfacu, kopírujte a vložte do konzole najednou a zmáčkněte Enter:
+Vyrobíme konfiguraci interfacu, **zde si nastavte rychlost jakou jste zvolili při kompilaci firmwaru, v mém případě 500000** , kopírujte a vložte do konzole najednou a zmáčkněte Enter:
 
     sudo /bin/sh -c "cat > /etc/network/interfaces.d/can0" << EOF
     allow-hotplug can0
