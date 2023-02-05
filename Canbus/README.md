@@ -356,6 +356,55 @@ Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pr
 
 ![octopus-sensorless](img/octopus-sensorless.png)
 
+## Konfigurace:
+
+### Původní stav:
+
+    [stepper_x]
+    # …
+    endstop_pin: PC0
+    # …
+    homing_retract_dist: 5
+
+    [tmc2209 stepper_x]
+    # …
+
+    [stepper_y]
+    # …
+    endstop_pin: PC1
+    # …
+    homing_retract_dist: 5
+
+    [tmc2209 stepper_y]
+    # …
+
+### Po úpravě:
+
+    [stepper_x]
+    endstop_pin: tmc2209_stepper_x:virtual_endstop
+    # …
+    homing_retract_dist: 0
+
+    [tmc2209 stepper_x]
+    # …
+    diag_pin: ^PC0 # použijete stejný pin co jste měli nastavený jako endstop_pin!
+    driver_SGTHRS: 255 # 255 je nejvetší citlivost pro detekci, 0 je nejmenší citlivost
+
+    [stepper_y]
+    # …
+    endstop_pin: tmc2209_stepper_y:virtual_endstop
+    # …
+    homing_retract_dist: 0
+
+    [tmc2209 stepper_y]
+    # …
+    diag_pin: ^PC1     # použijete stejný pin co jste měli nastavený jako endstop_pin!
+    driver_SGTHRS: 255 # 255 je nejvetší citlivost pro detekci, 0 je nejmenší citlivost
+
+
+
+
+## Makra
 
 
 
