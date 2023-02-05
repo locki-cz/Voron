@@ -318,7 +318,7 @@ Provedeme nastavení HW pro který to kompilujeme:
 
 Nastavíme takto:
 
-![klipper](img/canboot.png) 
+![klipper](img/canboot-flash.png) 
 
 Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
 
