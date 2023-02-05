@@ -5,31 +5,35 @@ Jak nahrát Canboot a klipper do CanBus desky Mellow SB2040 v1
 ![klipper](img/sb2040.png) 
 
 # 1. Canboot
-Tento krok můžete přeskočit a není úplně nutný k plné funkčnosti, ale do budoucna je fajn pak mít možnost nahrát nový klipper firmware skrz CanBus interface. **Nemusíte připojovat USB kabel do extruderu a nahrajete nový firmware jedním příkazem. Je to hodně pohodné.**
+Tento krok můžete přeskočit a není úplně nutný k plné funkčnosti, ale do budoucna je fajn pak mít možnost nahrát nový klipper firmware skrz CanBus interface. **Nemusíte připojovat USB kabel do extruderu a nahrajete nový firmware jedním příkazem. Je to hodně pohodlné.**
 
-Tak jdem na to, připojíme se na ke své tiskárně pomocí SSH a vlezeme do své home složky:
+### Tak jdeme na to, připojíme se na ke své tiskárně pomocí SSH a přesuneme se do své home složky:
 
     cd ~
 
-Stáheneme poslední verzi CanBoot z gitu:
+### Stáheneme poslední verzi CanBoot z gitu:
 
     git clone https://github.com/Arksine/CanBoot
 
-Vlezeme do složky:
+### Přejdeme do složky:
 
     cd CanBoot
 
-  Odstraníme případné předešlé kompilace:
+### Odstraníme případné předešlé kompilace:
 
     make clean
 
-Provedeme nastavení HW pro který to kompilujeme:
+### Provedeme nastavení HW pro který to kompilujeme:
 
     make menuconfig
 
-Nastavíme takto:  
+### Nastavíme takto:  
 
 ![canboot](img/canboot.png) 
+
+Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
+
+Zmáčkneme **q** pro uložení a **y** pro potvrzení
 
 ### Zkompilujeme:
 
@@ -52,21 +56,19 @@ Mělo by se zobrazit nově toto v seznamu:
 
 
 # 2. Klipper firmware
-### Zkompilujeme firmware
-
-Vlezeme do klipper složky a stáhneme poslední aktualizaci z gitu:
+### Vlezeme do klipper složky a stáhneme poslední aktualizaci z gitu:
 
     cd ~/klipper && git pull
 
-Odstraníme předešlé kompilace:
+### Odstraníme předešlé kompilace:
 
     make clean
 
-Provedeme nastavení HW pro který to kompilujeme:
+### Provedeme nastavení HW pro který to kompilujeme:
 
     make menuconfig
 
-Nastavíme takto:
+### Nastavíme takto:
 
 ![klipper](img/canboot-flash.png) 
 
@@ -107,7 +109,7 @@ Rozsvítí se status led:
 
 # 3. Zapojení a nastavení canbus interfacu
 
-## Zapojení
+###  Zapojení
 Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpor CANBUS 120 ohmů:
 
 ![jumper](img/jumper.png)
@@ -125,14 +127,14 @@ Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpo
 
 ![zapojeni](img/zapojeni.png) 
 
-## Vytvoření Canbus interface:
+###  Vytvoření Canbus interface:
 
 Doinstalujeme balíčky, které budeme potřebovat:
 
     sudo apt update && sudo apt install nano wget -y
 
 
-Vyrobíme konfiguraci interfacu, kopírujte a vložte do konzole najednou a zmáčkněte Enter:
+Vyrobíme konfiguraci interfacu, **zde si nastavte rychlost jakou jste zvolili při kompilaci firmwaru, v mém případě 500000** , kopírujte a vložte do konzole najednou a zmáčkněte Enter:
 
     sudo /bin/sh -c "cat > /etc/network/interfaces.d/can0" << EOF
     allow-hotplug can0
@@ -145,7 +147,9 @@ Automatické zapnutí CanBus interfacu při bootu RPI provedete příkazy:
 
     sudo wget https://cdn.mellow.klipper.cn/shell/can-enable -O /usr/bin/can-enable > /dev/null 2>&1 && sudo chmod +x /usr/bin/can-enable || echo "The operation failed"
 
+
     sudo cat /etc/rc.local | grep "exit 0" > /dev/null || sudo sed -i '$a\exit 0' /etc/rc.local
+
 
     sudo sed -i '/^exit\ 0$/i \can-enable -d can0 -b 500000 -t 1024' /etc/rc.local
 
@@ -154,7 +158,7 @@ Restartujeme RPI:
     sudo reboot
 
 
-## Zjištění canbuss uuid
+### Zjištění canbus uuid
 
 Zjistíme příkazem:
 
@@ -175,7 +179,7 @@ Zjištěné mé CanBus UUID je: **211e59ecf887** vaše bude jiné, to své si zk
 
 
 
-# Konfigurace SB2040 v printer.cfg
+# 4. Konfigurace SB2040 v printer.cfg
 
 
 ![pinout](img/pinout.jpg) 
@@ -242,10 +246,63 @@ Do printer.cfg si přidáme canbus mcu:
     sense_resistor: 0.110
     stealthchop_threshold: 0
 
+    ########################################
+    # Filament runout switch sensor
+    ########################################
+
+    [filament_switch_sensor runout_sensor]
+    pause_on_runout: True
+    runout_gcode:
+    #SET_LED LED=toolhead RED=1 GREEN=0 BLUE=0 INDEX=1  TRANSMIT=1
+    G91 ; relative positioning
+    G1 E-2 F2700
+    G1 Z10
+    G90 ; absolute positioning
+    G1 X250 Y50 F10000
+    G91
+    G1 E-100 F1000
+    insert_gcode:
+    #SET_LED LED=toolhead RED=0.5 GREEN=0.5 BLUE=0.0 WHITE=0.1 INDEX=1 TRANSMIT=1
+    G92 E0 ; Reset Extruder
+    G1 E50 F600 ; move filament down 50mm quickly
+    G1 E60 F300 ; extrude 60mm of filament slowly to get it through nozzle
+    event_delay: 3.0
+    pause_delay: 0.5
+    switch_pin: !sb2040:gpio29
+
+    [probe] ## TAP
+    pin: sb2040:gpio28
+    x_offset: 0
+    y_offset: 0
+    #z_offset: 1
+    speed: 3.0
+    lift_speed: 7.0
+    samples: 3
+    samples_result: median
+    sample_retract_dist: 2.0
+    samples_tolerance: 0.006
+    samples_tolerance_retries: 3
+    activate_gcode:
+    {% set PROBE_TEMP = 150 %}
+    {% set MAX_TEMP = PROBE_TEMP + 5 %}
+    {% set ACTUAL_TEMP = printer.extruder.temperature %}
+    {% set TARGET_TEMP = printer.extruder.target %}
+
+    {% if TARGET_TEMP > PROBE_TEMP %}
+        { action_respond_info('Extruder temperature target of %.1fC is too high, lowering to %.1fC' % (TARGET_TEMP, PROBE_TEMP)) }
+        M109 S{ PROBE_TEMP }
+    {% else %}
+        # Temperature target is already low enough, but nozzle may still be too hot.
+        {% if ACTUAL_TEMP > MAX_TEMP %}
+            { action_respond_info('Extruder temperature %.1fC is still too high, waiting until below %.1fC' % (ACTUAL_TEMP, MAX_TEMP)) }
+            TEMPERATURE_WAIT SENSOR=extruder MAXIMUM={ MAX_TEMP }
+        {% endif %}
+    {% endif %}
 
 
 
-# Aktualizace SB2040 firmware skrz CanBus interface:
+
+# 5. Aktualizace SB2040 firmware skrz CanBus interface:
 
 Postup je stejný jako v bodě 2:
 
@@ -265,7 +322,7 @@ Provedeme nastavení HW pro který to kompilujeme:
 
 Nastavíme takto:
 
-![klipper](img/canboot.png) 
+![klipper](img/canboot-flash.png) 
 
 Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
 
@@ -284,16 +341,30 @@ Stopneme klipper
     python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 1cffaa2dd522
 
 Mělo by to vypadat takto:
-![klipper](img/canboot-flash-done.png)
+![canboot-flash](img/canboot-flash-done.png)
 
 Opět spustíme klipper:
 
     sudo service klipper start 
 
+# 6. Sensorless homing
 
-# Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny:
+Když jsme se zbavili hromady kabeláže tak je zbytečné používat i endstopy na XY. Tady si ukážeme jak jednoduše upravit na Octopus desce.
 
-## Naformátujte nějakou malou microSD kartu a strčte ji do Octopus desky
+## Zapojení
+Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pro AB motory:
+
+![octopus-sensorless](img/octopus-sensorless.png)
+
+
+
+
+
+
+
+# 7. Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny:
+
+## Naformátujte nějakou malou microSD, naformátujte ji na FAT32 a strčte ji do Octopus desky
 
 ## Zkompilujte firmware pro svou desku jak jste zvykli
 
@@ -301,7 +372,7 @@ Stopneme klipper
     sudo service klipper stop
 
 
-Ve složce kde máte klipper pak spustíme skript:
+Ve složce kde máte klipper pak spustíme skript v mém případě pro F446 v1.1 verzi:
 
     ./scripts/flash-sdcard.sh /dev/ttyACM0 btt-octopus-f446-v1.1
 
@@ -309,9 +380,9 @@ Ve složce kde máte klipper pak spustíme skript:
 Opět spustíme klipper:
     sudo service klipper start
 
-**Teď jen vypněte skrz Mainsail, nebo Fluid tiskárnu, po nějaké chvíli vypnětěte tiskárnu úplně, chvíli počkejte a opet zapněte, Octopus si automaticky nahraje nový klipper firmware.**
+**Teď jen vypněte celou tiskárnu skrz Mainsail, nebo Fluid, po nějaké chvilcevypnětěte tiskárnu úplně vypínačem, chvíli počkejte a opet zapněte, Octopus si automaticky nahraje nový klipper firmware z sd karty.**
 
-Pokud máte jiný typ desky tak tímto příkazem vylistujeme a zjistíme zda to umí i vaše deska:
+Pokud máte jiný typ desky tak tímto příkazem vylistujeme a zjistíme zda to lze použít i s vaší deskou:
 
     ./scripts/flash-sdcard.sh -l
 
@@ -374,7 +445,15 @@ Pro tyto desky je zde podpora:
 > - smoothieboard-v1
 
 
-# One more thing:
-CanBus s Rpi SB2040 potřebuje chladit, hlavně pokud tisknete v uzavřeném boxu. Pro Stealthburner jsem upravil dvířka pro umístění ventilátoru 25x25x7 mm, nebo 30x30x7 mm. Chladiš krokového motoru je třeba upilovat zhruba na polovinu, přilepte i nějaký chladič na RP2040.
+# 8. One more thing:
+CanBus s Rpi SB2040 a řadičem motoru potřebuje chladit, hlavně pokud tisknete v uzavřeném boxu. Pro Stealthburner jsem upravil dvířka pro umístění ventilátoru 25x25x7 mm a 30x30x7 mm. Chladič krokového motoru je třeba upilovat zhruba na polovinu, pro jistotu přilepte i nějaký chladič na RP2040.
+
+Nankonec jsem navrhnul i umbilical mod. Tak nejsou třeba řetězy.
 
 Modely naleznete zde: https://www.printables.com/cs/social/122655-locki/models
+
+![mods](img/mods.png)
+
+
+Pokud zde najdete nějakou blbost, nepřesnost, typo atd tak napište na discordu, opravím.
+
