@@ -72,7 +72,7 @@ Mělo by se zobrazit nově toto v seznamu:
 
 ![klipper](img/canboot-flash.png) 
 
-Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
+Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24** 
 
 Zmáčkneme **q** pro uložení a **y** pro potvrzení
 
@@ -527,6 +527,18 @@ Stopneme klipper
 Ve složce kde máte klipper:
 
     cd ~/klipper
+
+    make clean
+    make menuconfig
+###
+Nastavíme:
+
+![octopus-F446v1.1](img/octopus-F446v1.1.png)
+
+Zmáčkneme **q** pro uložení a **y** pro potvrzení
+
+    make -j4
+
 
 Spustíme skript, v mém případě Octopus verzi F446 v1.1:
 
