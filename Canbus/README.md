@@ -347,8 +347,22 @@ Opět spustíme klipper:
 
     sudo service klipper start 
 
+# 6. Sensorless homing
 
-# 6. Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny:
+Když jsme se zbavili hromady kabeláže tak je zbytečné používat i endstopy na XY. Tady si ukážeme jak jednoduše upravit na Octopus desce.
+
+## Zapojení
+Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pro AB motory:
+
+![octopus-sensorless](img/octopus-sensorless.png)
+
+
+
+
+
+
+
+# 7. Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny:
 
 ## Naformátujte nějakou malou microSD, naformátujte ji na FAT32 a strčte ji do Octopus desky
 
@@ -431,13 +445,15 @@ Pro tyto desky je zde podpora:
 > - smoothieboard-v1
 
 
-# 7. One more thing:
+# 8. One more thing:
 CanBus s Rpi SB2040 a řadičem motoru potřebuje chladit, hlavně pokud tisknete v uzavřeném boxu. Pro Stealthburner jsem upravil dvířka pro umístění ventilátoru 25x25x7 mm a 30x30x7 mm. Chladič krokového motoru je třeba upilovat zhruba na polovinu, pro jistotu přilepte i nějaký chladič na RP2040.
+
+Nankonec jsem navrhnul i umbilical mod. Tak nejsou třeba řetězy.
 
 Modely naleznete zde: https://www.printables.com/cs/social/122655-locki/models
 
 ![mods](img/mods.png)
 
 
-Pokud zde najdete nějakou blbost nepřesnost, typo atd tak napište na discordu, opravím.
+Pokud zde najdete nějakou blbost, nepřesnost, typo atd tak napište na discordu, opravím.
 
