@@ -435,7 +435,7 @@ Opět spustíme klipper:
 
     sudo service klipper start
 
-**Teď jen vypněte celou tiskárnu skrz Mainsail, nebo Fluid, po nějaké chvilcevypnětěte tiskárnu úplně vypínačem, chvíli počkejte a opet zapněte, Octopus si automaticky nahraje nový klipper firmware z sd karty.**
+**Teď jen vypněte celou tiskárnu skrz Mainsail, nebo Fluid, po nějaké chvilce vypnětěte tiskárnu úplně vypínačem, chvíli počkejte a opět zapněte, Octopus si automaticky nahraje nový klipper firmware z sd karty.**
 
 Pokud máte jiný typ desky tak tímto příkazem vylistujeme a zjistíme zda to lze použít i s vaší deskou:
 
