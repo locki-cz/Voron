@@ -426,7 +426,11 @@ Stopneme klipper
     sudo service klipper stop
 
 
-Ve složce kde máte klipper pak spustíme skript v mém případě pro F446 v1.1 verzi:
+Ve složce kde máte klipper:
+
+    cd ~/klipper
+
+Spustíme skript, v mém případě Octopus verzi F446 v1.1:
 
     ./scripts/flash-sdcard.sh /dev/ttyACM0 btt-octopus-f446-v1.1
 
