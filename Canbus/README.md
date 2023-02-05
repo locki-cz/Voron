@@ -266,6 +266,35 @@ Do printer.cfg si přidáme canbus mcu:
     pause_delay: 0.5
     switch_pin: !sb2040:gpio29
 
+    [probe] ## TAP
+    pin: sb2040:gpio28
+    x_offset: 0
+    y_offset: 0
+    #z_offset: 1
+    speed: 3.0
+    lift_speed: 7.0
+    samples: 3
+    samples_result: median
+    sample_retract_dist: 2.0
+    samples_tolerance: 0.006
+    samples_tolerance_retries: 3
+    activate_gcode:
+    {% set PROBE_TEMP = 150 %}
+    {% set MAX_TEMP = PROBE_TEMP + 5 %}
+    {% set ACTUAL_TEMP = printer.extruder.temperature %}
+    {% set TARGET_TEMP = printer.extruder.target %}
+
+    {% if TARGET_TEMP > PROBE_TEMP %}
+        { action_respond_info('Extruder temperature target of %.1fC is too high, lowering to %.1fC' % (TARGET_TEMP, PROBE_TEMP)) }
+        M109 S{ PROBE_TEMP }
+    {% else %}
+        # Temperature target is already low enough, but nozzle may still be too hot.
+        {% if ACTUAL_TEMP > MAX_TEMP %}
+            { action_respond_info('Extruder temperature %.1fC is still too high, waiting until below %.1fC' % (ACTUAL_TEMP, MAX_TEMP)) }
+            TEMPERATURE_WAIT SENSOR=extruder MAXIMUM={ MAX_TEMP }
+        {% endif %}
+    {% endif %}
+
 
 
 
