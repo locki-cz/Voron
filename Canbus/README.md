@@ -242,6 +242,30 @@ Do printer.cfg si přidáme canbus mcu:
     sense_resistor: 0.110
     stealthchop_threshold: 0
 
+    ########################################
+    # Filament runout switch sensor
+    ########################################
+
+    [filament_switch_sensor runout_sensor]
+    pause_on_runout: True
+    runout_gcode:
+    #SET_LED LED=toolhead RED=1 GREEN=0 BLUE=0 INDEX=1  TRANSMIT=1
+    G91 ; relative positioning
+    G1 E-2 F2700
+    G1 Z10
+    G90 ; absolute positioning
+    G1 X250 Y50 F10000
+    G91
+    G1 E-100 F1000
+    insert_gcode:
+    #SET_LED LED=toolhead RED=0.5 GREEN=0.5 BLUE=0.0 WHITE=0.1 INDEX=1 TRANSMIT=1
+    G92 E0 ; Reset Extruder
+    G1 E50 F600 ; move filament down 50mm quickly
+    G1 E60 F300 ; extrude 60mm of filament slowly to get it through nozzle
+    event_delay: 3.0
+    pause_delay: 0.5
+    switch_pin: !sb2040:gpio29
+
 
 
 
