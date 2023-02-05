@@ -432,6 +432,7 @@ Ve složce kde máte klipper pak spustíme skript v mém případě pro F446 v1.
 
 
 Opět spustíme klipper:
+
     sudo service klipper start
 
 **Teď jen vypněte celou tiskárnu skrz Mainsail, nebo Fluid, po nějaké chvilcevypnětěte tiskárnu úplně vypínačem, chvíli počkejte a opet zapněte, Octopus si automaticky nahraje nový klipper firmware z sd karty.**
