@@ -11,7 +11,7 @@ Tento krok můžete přeskočit a není úplně nutný k plné funkčnosti, ale 
 
     cd ~
 
-### Stáheneme poslední verzi CanBoot z gitu:
+### Stáhneme poslední verzi CanBoot z gitu:
 
     git clone https://github.com/Arksine/CanBoot
 
@@ -362,7 +362,7 @@ Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pr
 
     [stepper_x]
     # …
-    endstop_pin: PC0
+    endstop_pin: !PG6
     # …
     homing_retract_dist: 5
 
@@ -371,7 +371,7 @@ Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pr
 
     [stepper_y]
     # …
-    endstop_pin: PC1
+    endstop_pin: !PG9
     # …
     homing_retract_dist: 5
 
@@ -387,7 +387,7 @@ Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pr
 
     [tmc2209 stepper_x]
     # …
-    diag_pin: ^PC0 # použijete stejný pin co jste měli nastavený jako endstop_pin!
+    diag_pin: ^PG6  # použijete stejný pin co jste měli nastavený jako endstop_pin!
     driver_SGTHRS: 255 # 255 je nejvetší citlivost pro detekci, 0 je nejmenší citlivost
 
     [stepper_y]
@@ -398,7 +398,7 @@ Odpojíme stávající endstopy, na octopus desce zapojíme jumpery DIAG piny pr
 
     [tmc2209 stepper_y]
     # …
-    diag_pin: ^PC1     # použijete stejný pin co jste měli nastavený jako endstop_pin!
+    diag_pin: ^PG9     # použijete stejný pin co jste měli nastavený jako endstop_pin!
     driver_SGTHRS: 255 # 255 je nejvetší citlivost pro detekci, 0 je nejmenší citlivost
 
 
