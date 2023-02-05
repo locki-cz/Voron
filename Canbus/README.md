@@ -284,7 +284,7 @@ Stopneme klipper
     python3 ~/klipper/lib/canboot/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 1cffaa2dd522
 
 Mělo by to vypadat takto:
-![klipper](img/canboot-flash-done.png)
+![canboot-flash](img/canboot-flash-done.png)
 
 Opět spustíme klipper:
 
@@ -376,5 +376,8 @@ Pro tyto desky je zde podpora:
 
 # One more thing:
 CanBus s Rpi SB2040 potřebuje chladit, hlavně pokud tisknete v uzavřeném boxu. Pro Stealthburner jsem upravil dvířka pro umístění ventilátoru 25x25x7 mm, nebo 30x30x7 mm. Chladiš krokového motoru je třeba upilovat zhruba na polovinu, přilepte i nějaký chladič na RP2040.
+
+![mods](img/mods.png)
+
 
 Modely naleznete zde: https://www.printables.com/cs/social/122655-locki/models
