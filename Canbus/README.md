@@ -7,27 +7,27 @@ Jak nahrát Canboot a klipper do CanBus desky Mellow SB2040 v1
 # 1. Canboot
 Tento krok můžete přeskočit a není úplně nutný k plné funkčnosti, ale do budoucna je fajn pak mít možnost nahrát nový klipper firmware skrz CanBus interface. **Nemusíte připojovat USB kabel do extruderu a nahrajete nový firmware jedním příkazem. Je to hodně pohodné.**
 
-Tak jdem na to, připojíme se na ke své tiskárně pomocí SSH a vlezeme do své home složky:
+### Tak jdeme na to, připojíme se na ke své tiskárně pomocí SSH a vlezeme do své home složky:
 
     cd ~
 
-Stáheneme poslední verzi CanBoot z gitu:
+### Stáheneme poslední verzi CanBoot z gitu:
 
     git clone https://github.com/Arksine/CanBoot
 
-Vlezeme do složky:
+### Vlezeme do složky:
 
     cd CanBoot
 
-  Odstraníme případné předešlé kompilace:
+### Odstraníme případné předešlé kompilace:
 
     make clean
 
-Provedeme nastavení HW pro který to kompilujeme:
+### Provedeme nastavení HW pro který to kompilujeme:
 
     make menuconfig
 
-Nastavíme takto:  
+### Nastavíme takto:  
 
 ![canboot](img/canboot.png) 
 
@@ -52,21 +52,19 @@ Mělo by se zobrazit nově toto v seznamu:
 
 
 # 2. Klipper firmware
-### Zkompilujeme firmware
-
-Vlezeme do klipper složky a stáhneme poslední aktualizaci z gitu:
+### Vlezeme do klipper složky a stáhneme poslední aktualizaci z gitu:
 
     cd ~/klipper && git pull
 
-Odstraníme předešlé kompilace:
+### Odstraníme předešlé kompilace:
 
     make clean
 
-Provedeme nastavení HW pro který to kompilujeme:
+### Provedeme nastavení HW pro který to kompilujeme:
 
     make menuconfig
 
-Nastavíme takto:
+### Nastavíme takto:
 
 ![klipper](img/canboot-flash.png) 
 
@@ -107,7 +105,7 @@ Rozsvítí se status led:
 
 # 3. Zapojení a nastavení canbus interfacu
 
-## Zapojení
+###  Zapojení
 Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpor CANBUS 120 ohmů:
 
 ![jumper](img/jumper.png)
@@ -125,7 +123,7 @@ Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpo
 
 ![zapojeni](img/zapojeni.png) 
 
-## Vytvoření Canbus interface:
+###  Vytvoření Canbus interface:
 
 Doinstalujeme balíčky, které budeme potřebovat:
 
@@ -156,7 +154,7 @@ Restartujeme RPI:
     sudo reboot
 
 
-## Zjištění canbuss uuid
+### Zjištění canbuss uuid
 
 Zjistíme příkazem:
 
@@ -177,7 +175,7 @@ Zjištěné mé CanBus UUID je: **211e59ecf887** vaše bude jiné, to své si zk
 
 
 
-# Konfigurace SB2040 v printer.cfg
+# 4. Konfigurace SB2040 v printer.cfg
 
 
 ![pinout](img/pinout.jpg) 
@@ -300,7 +298,7 @@ Do printer.cfg si přidáme canbus mcu:
 
 
 
-# Aktualizace SB2040 firmware skrz CanBus interface:
+# 5. Aktualizace SB2040 firmware skrz CanBus interface:
 
 Postup je stejný jako v bodě 2:
 
@@ -346,7 +344,7 @@ Opět spustíme klipper:
     sudo service klipper start 
 
 
-# Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny:
+# 6. Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny:
 
 ## Naformátujte nějakou malou microSD, naformátujte ji na FAT32 a strčte ji do Octopus desky
 
@@ -429,7 +427,7 @@ Pro tyto desky je zde podpora:
 > - smoothieboard-v1
 
 
-# One more thing:
+# 7. One more thing:
 CanBus s Rpi SB2040 a řadičem motoru potřebuje chladit, hlavně pokud tisknete v uzavřeném boxu. Pro Stealthburner jsem upravil dvířka pro umístění ventilátoru 25x25x7 mm a 30x30x7 mm. Chladič krokového motoru je třeba upilovat zhruba na polovinu, pro jistotu přilepte i nějaký chladič na RP2040.
 
 Modely naleznete zde: https://www.printables.com/cs/social/122655-locki/models
