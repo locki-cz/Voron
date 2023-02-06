@@ -6,7 +6,7 @@ Jak nahrát Canboot a klipper do CanBus desky Mellow SB2040 v1
 
 ## 1. Canboot
 
-Čo je Canboot? Jedná sa o malý spúšťací program (bootloader), ktorý Vám umožní aktualizovať klipper bez pripájania USB, t.j. priamo cez CANBus. Nemusíte rozoberať tlačiareň, pripájať USB káble a nastavovať jumpery. Canboot nie je potrebný, ale silno odporúčaný. 
+Co je Canboot? Jedná sa o malý spouštěcí program (bootloader), který Vám umožní aktualizovať klipper bez připojování USB, přímo skrz CANBus. Nemusíte rozebírat tiskárnu, připojovat USB kabel. Canboot není nutný, ale je doporučené ho použít. 
 
 Tak jdeme na to, připojíme se na ke své tiskárně pomocí SSH a přesuneme se do své home složky:
 ```
@@ -18,7 +18,7 @@ Stáheneme poslední verzi CanBoot z gitu:
 git clone https://github.com/Arksine/CanBoot
 ```
 
-Přejdeme do složky:
+Přesuneme se do složky:
 ```
 cd CanBoot
 ```
@@ -37,16 +37,16 @@ Nastavíme takto:
 
 ![canboot](img/canboot.png) 
 
-Nezapomeňte dopsat: rychlost `500000` (nebo až `1000000`) v kolonke `CAN bus speed` a `gpio24` v kolonke `Status LED GPIO Pin`.
+Nezapomeňte dopsat: rychlost `500000` (nebo až `1000000`) v kolonce `CAN bus speed` a `gpio24` v kolonce `Status LED GPIO Pin`.
 
 Zmáčkneme `q` pro uložení a `y` pro potvrzení.
 
-Zkompilujeme pomocou:
+Zkompilujeme pomocí:
 ```
 make -j4
 ```
 
-(`-j4` iba hovorí, aby kompilácia prebiehala na 4 jadrách.)
+(`-j4` jen upřesnuje nastavení kompilace, aby probíhala na 4 jadrech.)
 
 Teď nahrajeme námi zkompilovaný CanBoot firmware do SB2040 desky:
 
@@ -62,7 +62,7 @@ Mělo by se zobrazit nově toto v seznamu:
 Bus 001 Device 014: ID 2e8a:0003
 ```
 
-Zapíšeme si dve štvorice znakov za ID, teda v našom prípade `2e8a:0003`
+Zapíšeme si dvě čtveřice znaků za ID, teda v našom prípade `2e8a:0003` mělo by to být u všech SB2040 stejné, ale v bucoucnu se to může lišit.
 
 Nahrajeme CanBoot firmware:
 ```
@@ -71,7 +71,7 @@ make flash FLASH_DEVICE=2e8a:0003
 
 ## 2. Klipper firmware
 
-Vlezeme do klipper složky a stáhneme poslední aktualizaci z gitu:
+Přesuneme se do klipper složky a stáhneme poslední aktualizaci z gitu:
 ```
 cd ~/klipper && git pull
 ```
@@ -90,7 +90,7 @@ Nastavíme takto:
 
 ![klipper](img/canboot-flash.png) 
 
-Nezapomeňte dopsat: rychlost `500000` (nebo až `1000000`, musí byť ale rovnaké číslo ako sme dali v predchádzajúcom kroku) a `gpio24`.
+Nezapomeňte dopsat: rychlost `500000` (nebo až `1000000`, musí byt stejná jak jsme dali v předchozím kroku) a `gpio24`.
 
 Zmáčkneme `q` pro uložení a `y` pro potvrzení.
 
@@ -138,9 +138,9 @@ Ujistěte se, že jste na SB2040 zapojili jumper/propojku pro zakončovací odpo
 
 ![jumper](img/jumper.png)
 
-Na FLY-UTOC-1 nedáváte žádné propojky.
+Na Mellow FLY-UTOC-1 nedáváte žádné propojky.
 
-Zapojíte podle popisu pokud máte verzi jen s paticemi, pokud máte tu s microfit konektory tak takto podle barvy kabelů. Ak máte multimeter, pre istotu skontrolujte, nakoľko rôzny výrobcovia používajú iné usporiadania konektorov.
+Zapojíte podle popisu pokud máte verzi jen s paticemi, pokud máte tu s microfit konektory tak takto podle barvy kabelů. Jestli máte multimetr tak si pro jistotu zkontrolujte uspořádání konektorů, měl by být popis na PCB.
 - +24V - Červená
 - 0V - Černá
 - CANBus-H - Žlutá
@@ -157,7 +157,7 @@ Doinstalujeme balíčky, které budeme potřebovat:
 sudo apt update && sudo apt install nano wget -y
 ```
 
-Vyrobíme konfiguraci interfacu. Otvoríme súbor `/etc/network/interfaces.d/can0` pomocou textového editoru `nano`. Musíme použiť `sudo`, pretože sa jedná o systémový súbor:
+Vyrobíme konfiguraci interfacu. Otevřeme soubor `/etc/network/interfaces.d/can0` pomocí textového editoru `nano`. Musíme použiť `sudo`, protože sa jedná o systémový soubor:
 ```
 sudo nano /etc/network/interfaces.d/can0
 ```
@@ -171,7 +171,7 @@ iface can0 can static
     pre-up ip link set can0 txqueuelen 256
 ```
 
-Uložíme s `Ctrl + O` (uložiť súbor), `Enter` na potvrdenie názvu súboru a `Ctrl + X` na zavretie editoru (na spodu editoru tieto skratky môžete vidieť).
+Uložíme sstisknutím `Ctrl + O` (uložit soubor), `Enter` na potvrzení názvu souboru a `Ctrl + X` na zavrení editoru (dole v editoru tyto zkratky můžete vidět).
 
 Restartujeme RPI:
 ```
@@ -342,8 +342,6 @@ Nastavíme takto:
 
 ![canboot-flash](img/canboot-flash.png) 
 
-![klipper](img/canboot-flash.png) 
-
 Nezapomeňte dopsat: rychlost **500000, nebo až 1000000 a gpio24**
 
 Zmáčkneme `q` pro uložení a `y` pro potvrzení
@@ -450,7 +448,7 @@ G1 X-10 F6000
 G90
 ```
 
-Opět změníme cilivost a místo 255 dáme míň do té doby než jste spokojeni.
+Opět změníme cilivost a místo 255 nastavíme o něco méně do té doby, než jste spokojeni.
 
 **Stejný postup opakujeme pro osu Y**
 
@@ -463,6 +461,12 @@ Provedeme home na ose Y:
 ```
 G28 Y0
 ```
+
+Případně se pohneme zpět v GUI YX -10 pro další test:
+
+G91
+G1 Y-10 F6000
+G90
 
 V mém případě s Moons motory mám obě hodnoty citlivostni nastaveny na 70:
 ```
@@ -539,9 +543,9 @@ gcode:
     SET_TMC_CURRENT STEPPER=stepper_y CURRENT={RUN_CURRENT_Y}
 ```
 
-## 7. Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny
+## 7. Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny, vkládáním sub karty nebo propojky
 
-Naformátujte nějakou malou microSD, naformátujte ji na FAT32 a strčte ji do Octopus desky
+Naformátujte nějakou malou microSD na FAT32 a strčtezasuňte ji do Octopus desky
 
 Zkompilujte firmware pro svou desku jak jste zvykli.
 
@@ -565,7 +569,7 @@ Provedeme nastavení HW pro který to kompilujeme:
 make menuconfig
 ```
     
-Nastavíme:
+Nastavíme - toto je pro verzi F446 v1.1:
 
 ![octopus-F446v1.1](img/octopus-F446v1.1.png)
 
