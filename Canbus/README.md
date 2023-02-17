@@ -146,6 +146,8 @@ Zapojíte podle popisu pokud máte verzi jen s paticemi, pokud máte tu s microf
 - CANBus-H - Žlutá
 - CanBus-L - Bílá
 
+Připojte si také 24V z napájecího zdroje do UTOC
+
 ![utoc](img/fly-utoc-1.png)
 
 ![zapojeni](img/zapojeni.png) 
