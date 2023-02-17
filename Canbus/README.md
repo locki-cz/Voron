@@ -180,6 +180,11 @@ sudo reboot
 
 ### Zjištění canbus uuid
 
+Přesuneme se do klipper složky:
+```
+cd ~/klipper
+```
+
 Zjistíme příkazem:
 ```
 python3 lib/canboot/flash_can.py -q
