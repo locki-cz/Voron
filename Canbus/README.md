@@ -212,7 +212,7 @@ Zjištěné mé CanBus UUID je: `211e59ecf887` vaše bude jiné, to své si zkop
 Do printer.cfg si přidáme canbus mcu:
 ```
 [mcu sb2040]
-uuid: vase-id-napisete-sem     # vase uu id
+canbus_uuid: vase-id-napisete-sem     # vase uu id
 
 ## SB2040 RPI sensor
 [temperature_sensor FLY-SB2040]
