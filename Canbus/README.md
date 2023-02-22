@@ -461,7 +461,7 @@ Opět změníme cilivost a místo 255 nastavíme o něco méně do té doby, ne�
 
 Nastavíme citlivost:
 ```
-SET_TMC_FIELD FIELD=SGTHRS STEPPER=stepper_Y VALUE=255
+SET_TMC_FIELD FIELD=SGTHRS STEPPER=stepper_y VALUE=255
 ```
 
 Provedeme home na ose Y:
