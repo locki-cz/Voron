@@ -170,7 +170,7 @@ iface can0 can static
     bitrate 500000
     up ifconfig $IFACE txqueuelen 1024
     pre-up ip link set can0 type can bitrate 500000
-    pre-up ip link set can0 txqueuelen 256
+    pre-up ip link set can0 txqueuelen 1024
 ```
 
 Uložíme sstisknutím `Ctrl + O` (uložit soubor), `Enter` na potvrzení názvu souboru a `Ctrl + X` na zavrení editoru (dole v editoru tyto zkratky můžete vidět).
