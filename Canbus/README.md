@@ -168,7 +168,7 @@ A vložíme nasledovný text, **zde si nastavte rychlost jakou jste zvolili při
 allow-hotplug can0
 iface can0 can static
     bitrate 500000
-    up ifconfig $IFACE txqueuelen 256
+    up ifconfig $IFACE txqueuelen 1024
     pre-up ip link set can0 type can bitrate 500000
     pre-up ip link set can0 txqueuelen 256
 ```
