@@ -550,7 +550,7 @@ gcode:
     SET_TMC_CURRENT STEPPER=stepper_y CURRENT={RUN_CURRENT_Y}
 ```
 
-## 7. Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny, vkládáním sub karty nebo propojky
+## 7. Něco navíc ... jak nahrát nový firmware do Octopuse bez otáčení tiskárny, strkání SD karty nebo propojky
 
 Naformátujte nějakou malou microSD na FAT32 a strčtezasuňte ji do Octopus desky
 
